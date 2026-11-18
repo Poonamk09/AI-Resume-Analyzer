@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Users</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>Registered Users</h1>
+
+        <table border="1" cellpadding="10" cellspacing="0">
+
+            <tr>
+                <th>User ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Registered Date</th>
+            </tr>
+
+            {% for user in users %}
+
+            <tr>
+                <td>{{ user.user_id }}</td>
+                <td>{{ user.full_name }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.phone }}</td>
+                <td>{{ user.created_at }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="5">No Users Registered Yet.</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <br>
+
+        <a href="/admin-dashboard">Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

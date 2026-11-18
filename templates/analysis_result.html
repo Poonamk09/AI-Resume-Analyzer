@@ -1,44 +1,69 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume Analysis Result</title>
+    <title>Resume Analysis Results</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
+    <header>
+        <h2>AI Resume Analyzer</h2>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+
     <div class="dashboard-container">
 
         <h1>Resume Analysis Results</h1>
+        <p>Here are your job matching results based on your resume.</p>
 
-        <div class="card">
-            <h2>Resume Match Percentage</h2>
-            <h1>{{ match_percentage }}%</h1>
-        </div>
+        {% if results %}
 
-        <div class="card">
-            <h3>Matched Skills</h3>
-            <ul>
-                {% for skill in matched_skills %}
-                    <li>{{ skill }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+            {% for result in results %}
 
-        <div class="card">
-            <h3>Missing Skills</h3>
-            <ul>
-                {% for skill in missing_skills %}
-                    <li>{{ skill }}</li>
-                {% endfor %}
-            </ul>
-        </div>
+                <div class="card">
 
-        <a href="/job-recommendations" class="btn">View Job Recommendations</a>
+                    <h2>{{ result.job_title }}</h2>
 
-        <p><a href="/dashboard">Back to Dashboard</a></p>
+                    <h4>{{ result.company_name }}</h4>
+
+                    <p><strong>Location:</strong> {{ result.location }}</p>
+
+                    <h3>Match Percentage: {{ result.match_percentage }}%</h3>
+
+                    <p>
+                        <strong>Matched Skills:</strong>
+                        {{ result.matched_skills if result.matched_skills else 'None' }}
+                    </p>
+
+                    <p>
+                        <strong>Missing Skills:</strong>
+                        {{ result.missing_skills if result.missing_skills else 'None' }}
+                    </p>
+
+                    <p>
+                        <strong>Analysis Date:</strong>
+                        {{ result.analyzed_at }}
+                    </p>
+
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p>No analysis results found. Please explore jobs first.</p>
+
+        {% endif %}
+
+        <br>
+
+        <a href="/dashboard" class="btn">Back to Dashboard</a>
 
     </div>
 
