@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h2>AI Resume Analyzer</h2>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="dashboard-container">
+
+        <h1>Welcome, {{ user_name }}!</h1>
+        <p>Manage your resume and explore job opportunities.</p>
+
+        <div class="dashboard-cards">
+
+            <div class="card">
+                <h3>Upload Resume</h3>
+                <p>Upload your PDF resume for analysis.</p>
+                <a href="/upload-resume" class="btn">Upload Now</a>
+            </div>
+
+            <div class="card">
+                <h3>Resume Analysis</h3>
+                <p>View your resume analysis results.</p>
+                <a href="/analysis-result" class="btn">View Results</a>
+            </div>
+
+            <div class="card">
+                <h3>Job Recommendations</h3>
+                <p>Find jobs matching your skills.</p>
+                <a href="/job-recommendations" class="btn">Explore Jobs</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Analysis Result</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>Resume Analysis Results</h1>
+
+        <div class="card">
+            <h2>Resume Match Percentage</h2>
+            <h1>{{ match_percentage }}%</h1>
+        </div>
+
+        <div class="card">
+            <h3>Matched Skills</h3>
+            <ul>
+                {% for skill in matched_skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Missing Skills</h3>
+            <ul>
+                {% for skill in missing_skills %}
+                    <li>{{ skill }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <a href="/job-recommendations" class="btn">View Job Recommendations</a>
+
+        <p><a href="/dashboard">Back to Dashboard</a></p>
+
+    </div>
+
+</body>
+</html>

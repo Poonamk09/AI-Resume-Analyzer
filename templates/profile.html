@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h2>AI Resume Analyzer</h2>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="form-container">
+
+        <h2>My Profile</h2>
+
+        <div class="profile-details">
+
+            <p><strong>Full Name:</strong> {{ user.full_name }}</p>
+
+            <p><strong>Email:</strong> {{ user.email }}</p>
+
+            <p><strong>Phone Number:</strong> {{ user.phone }}</p>
+
+        </div>
+
+        <a href="/dashboard" class="btn">Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

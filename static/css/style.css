@@ -1,0 +1,185 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f4f6f9;
+    color: #333;
+}
+
+/* Header */
+
+header {
+    background-color: #172554;
+    color: white;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h2 {
+    font-size: 24px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+    font-size: 16px;
+}
+
+/* Home Page */
+
+.hero {
+    text-align: center;
+    padding: 100px 20px;
+    background-color: #dbeafe;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #172554;
+}
+
+.hero p {
+    font-size: 18px;
+    margin-bottom: 30px;
+}
+
+/* Buttons */
+
+.btn {
+    display: inline-block;
+    background-color: #2563eb;
+    color: white;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 6px;
+    margin-top: 15px;
+}
+
+.btn:hover {
+    background-color: #1d4ed8;
+}
+
+/* Features and Cards */
+
+.features {
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.features h2 {
+    margin-bottom: 30px;
+}
+
+.feature-box,
+.card {
+    background-color: white;
+    padding: 25px;
+    margin: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.feature-box {
+    display: inline-block;
+    width: 28%;
+    vertical-align: top;
+}
+
+/* Forms */
+
+.form-container {
+    background-color: white;
+    width: 400px;
+    max-width: 90%;
+    margin: 60px auto;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+}
+
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+label {
+    display: block;
+    margin-top: 15px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Dashboard */
+
+.dashboard-container {
+    padding: 40px;
+    text-align: center;
+}
+
+.dashboard-cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.dashboard-cards .card {
+    width: 280px;
+}
+
+/* Footer */
+
+footer {
+    background-color: #172554;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+
+/* Links */
+
+a {
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .feature-box {
+        width: 90%;
+    }
+
+    .dashboard-container {
+        padding: 20px;
+    }
+}

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h2>AI Resume Analyzer</h2>
+        <nav>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/profile">Profile</a>
+            <a href="/logout">Logout</a>
+        </nav>
+    </header>
+
+    <div class="dashboard-container">
+
+        <h1>Recommended Jobs</h1>
+        <p>Jobs matching your resume skills.</p>
+
+        {% for job in jobs %}
+        <div class="card">
+
+            <h2>{{ job.job_title }}</h2>
+            <h3>{{ job.company_name }}</h3>
+
+            <p><strong>Location:</strong> {{ job.location }}</p>
+            <p><strong>Experience:</strong> {{ job.experience }}</p>
+            <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+            <p>{{ job.description }}</p>
+
+            <a href="{{ job.apply_link }}" target="_blank" class="btn">
+                Apply Now
+            </a>
+
+        </div>
+        {% else %}
+        <p>No job recommendations available.</p>
+        {% endfor %}
+
+        <p><a href="/dashboard">Back to Dashboard</a></p>
+
+    </div>
+
+</body>
+</html>
