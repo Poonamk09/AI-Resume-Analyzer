@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Jobs</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <div class="dashboard-container">
+
+        <h1>Manage Jobs</h1>
+        <br>
+
+<a href="/admin-add-job">
+    <button type="button">+ Add New Job</button>
+</a>
+
+<br><br>
+
+        <table border="1" cellpadding="10" cellspacing="0">
+
+            <tr>
+                <th>Job ID</th>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Experience</th>
+                <th>Job Type</th>
+            </tr>
+
+            {% for job in jobs %}
+
+            <tr>
+                <td>{{ job.job_id }}</td>
+                <td>{{ job.job_title }}</td>
+                <td>{{ job.company_name }}</td>
+                <td>{{ job.location }}</td>
+                <td>{{ job.experience }}</td>
+                <td>{{ job.job_type }}</td>
+            </tr>
+
+            {% else %}
+
+            <tr>
+                <td colspan="6">No Jobs Available.</td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+        <br>
+
+        <a href="/admin-dashboard">Back to Dashboard</a>
+
+    </div>
+
+</body>
+</html>

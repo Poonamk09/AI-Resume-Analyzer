@@ -1,52 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uploaded Resumes</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <title>All Resumes</title>
 </head>
 <body>
 
-    <div class="dashboard-container">
+<h2>Uploaded Resumes</h2>
 
-        <h1>Uploaded Resumes</h1>
+<table border="1" cellpadding="10">
+    <tr>
+        <th>Resume ID</th>
+        <th>User Name</th>
+        <th>Email</th>
+        <th>File Name</th>
+        <th>Uploaded Date</th>
+    </tr>
 
-        <table border="1" cellpadding="10" cellspacing="0">
+    {% for resume in resumes %}
+    <tr>
+        <td>{{ resume[0] }}</td>
+        <td>{{ resume[1] }}</td>
+        <td>{{ resume[2] }}</td>
+        <td>{{ resume[3] }}</td>
+        <td>{{ resume[4] }}</td>
+    </tr>
+    {% endfor %}
 
-            <tr>
-                <th>Resume ID</th>
-                <th>User Name</th>
-                <th>Email</th>
-                <th>File Name</th>
-                <th>Uploaded Date</th>
-            </tr>
+</table>
 
-            {% for resume in resumes %}
+<br>
 
-            <tr>
-                <td>{{ resume.resume_id }}</td>
-                <td>{{ resume.full_name }}</td>
-                <td>{{ resume.email }}</td>
-                <td>{{ resume.file_name }}</td>
-                <td>{{ resume.uploaded_at }}</td>
-            </tr>
-
-            {% else %}
-
-            <tr>
-                <td colspan="5">No Resumes Uploaded Yet.</td>
-            </tr>
-
-            {% endfor %}
-
-        </table>
-
-        <br>
-
-        <a href="/admin-dashboard">Back to Dashboard</a>
-
-    </div>
+<a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
 
 </body>
 </html>
