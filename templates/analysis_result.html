@@ -3,67 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Resume Analysis Results</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 40px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        h1, h2 {
+            color: #243b55;
+        }
+
+        .resume-info {
+            background: #eef3f8;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .skill {
+            display: inline-block;
+            background: #d9f2e6;
+            color: #176b43;
+            padding: 10px 18px;
+            border-radius: 20px;
+            font-weight: bold;
+            border: 1px solid #a8dfc1;
+        }
+
+        .no-skills {
+            color: #dc3545;
+            font-weight: bold;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #243b55;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 25px;
+        }
+
+        .btn:hover {
+            background: #365879;
+        }
+    </style>
 </head>
+
 <body>
 
-    <header>
-        <h2>AI Resume Analyzer</h2>
-        <nav>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/profile">Profile</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
-
-    <div class="dashboard-container">
+    <div class="container">
 
         <h1>Resume Analysis Results</h1>
-        <p>Here are your job matching results based on your resume.</p>
 
-        {% if results %}
+        <div class="resume-info">
 
-            {% for result in results %}
+            <h3>Uploaded Resume</h3>
 
-                <div class="card">
+            <p>
+                <strong>File Name:</strong>
+                {{ resume['file_name'] }}
+            </p>
 
-                    <h2>{{ result.job_title }}</h2>
+            <p>
+                <strong>Upload Date:</strong>
+                {{ resume['uploaded_at'] }}
+            </p>
 
-                    <h4>{{ result.company_name }}</h4>
+        </div>
 
-                    <p><strong>Location:</strong> {{ result.location }}</p>
+        <h2>Detected Skills</h2>
 
-                    <h3>Match Percentage: {{ result.match_percentage }}%</h3>
+        {% if matched_skills %}
 
-                    <p>
-                        <strong>Matched Skills:</strong>
-                        {{ result.matched_skills if result.matched_skills else 'None' }}
-                    </p>
+            <p>Skills found in your resume:</p>
 
-                    <p>
-                        <strong>Missing Skills:</strong>
-                        {{ result.missing_skills if result.missing_skills else 'None' }}
-                    </p>
+            <div class="skills">
 
-                    <p>
-                        <strong>Analysis Date:</strong>
-                        {{ result.analyzed_at }}
-                    </p>
+                {% for skill in matched_skills %}
+                    <span class="skill">{{ skill }}</span>
+                {% endfor %}
 
-                </div>
+            </div>
 
-            {% endfor %}
+            <h3>Total Skills Found: {{ matched_skills|length }}</h3>
 
         {% else %}
 
-            <p>No analysis results found. Please explore jobs first.</p>
+            <p class="no-skills">
+                No matching skills found in your resume.
+            </p>
 
         {% endif %}
 
-        <br>
-
-        <a href="/dashboard" class="btn">Back to Dashboard</a>
+        <a href="{{ url_for('dashboard') }}" class="btn">
+            Back to Dashboard
+        </a>
 
     </div>
 

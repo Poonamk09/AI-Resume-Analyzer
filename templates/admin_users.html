@@ -1,52 +1,61 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registered Users</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
+    <h1>Registered Users</h1>
 
-        <h1>Registered Users</h1>
+    <table>
+        <tr>
+            <th>User ID</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Registered Date</th>
+        </tr>
 
-        <table border="1" cellpadding="10" cellspacing="0">
+        {% for user in users %}
+        <tr>
+            <td>{{ user.user_id }}</td>
+            <td>{{ user.full_name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.phone }}</td>
+            <td>{{ user.created_at }}</td>
+        </tr>
+        {% endfor %}
 
-            <tr>
-                <th>User ID</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Registered Date</th>
-            </tr>
+    </table>
 
-            {% for user in users %}
-
-            <tr>
-                <td>{{ user.user_id }}</td>
-                <td>{{ user.full_name }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.phone }}</td>
-                <td>{{ user.created_at }}</td>
-            </tr>
-
-            {% else %}
-
-            <tr>
-                <td colspan="5">No Users Registered Yet.</td>
-            </tr>
-
-            {% endfor %}
-
-        </table>
-
-        <br>
-
-        <a href="/admin-dashboard">Back to Dashboard</a>
-
-    </div>
+    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
 
 </body>
 </html>

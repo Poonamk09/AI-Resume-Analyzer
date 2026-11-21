@@ -1,56 +1,191 @@
-\<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-\<html lang="en"> \<head>     \<meta charset="UTF-8">     \<meta name="viewport" content="width=device-width, initial-scale=1.0">     \<title>User Dashboard\</title>     \<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> \</head> \<body>
+    <title>AI Resume Analyzer - Dashboard</title>
 
-```
-<header>
-    <h2>AI Resume Analyzer</h2>
-    <nav>
-        <a href="/dashboard">Dashboard</a>
-        <a href="/profile">Profile</a>
-        <a href="/logout">Logout</a>
-    </nav>
-</header>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
-<!-- Success and Error Messages -->
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <div class="success-message">
-                {{ message }}
-            </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+        }
 
-<div class="dashboard-container">
+        .navbar {
+            background: #243b55;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
 
-    <h1>Welcome, {{ user_name }}!</h1>
-    <p>Manage your resume and explore job opportunities.</p>
+        .navbar h2 {
+            margin: 0;
+        }
 
-    <div class="dashboard-cards">
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+        }
 
-        <div class="card">
-            <h3>Upload Resume</h3>
-            <p>Upload your PDF resume for analysis.</p>
-            <a href="/upload-resume" class="btn">Upload Now</a>
-        </div>
+        .container {
+            width: 85%;
+            margin: 40px auto;
+        }
 
-        <div class="card">
-            <h3>Resume Analysis</h3>
-            <p>View your resume analysis results.</p>
-            <a href="/analysis-result" class="btn">View Results</a>
-        </div>
+        .welcome {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+        }
 
-        <div class="card">
-            <h3>Job Recommendations</h3>
-            <p>Find jobs matching your skills.</p>
-            <a href="/job-recommendations" class="btn">Explore Jobs</a>
+        .welcome h1 {
+            color: #243b55;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h3 {
+            color: #243b55;
+        }
+
+        .card p {
+            color: #666;
+            min-height: 45px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #243b55;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #141e30;
+        }
+
+        .logout {
+            background: #dc3545;
+            padding: 9px 15px;
+            border-radius: 5px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <div class="navbar">
+
+        <h2>AI Resume Analyzer</h2>
+
+        <div>
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+
+            <a href="{{ url_for('profile') }}">My Profile</a>
+
+            <a href="{{ url_for('logout') }}" class="logout">Logout</a>
         </div>
 
     </div>
 
-</div>
-```
 
-\</body> \</html>
+    <!-- Dashboard Content -->
+    <div class="container">
+
+        <div class="welcome">
+
+            <h1>Welcome, {{ user['full_name'] }}!</h1>
+
+            <p>Manage your resume and explore job opportunities.</p>
+
+        </div>
+
+
+        <!-- Dashboard Cards -->
+        <div class="cards">
+
+            <!-- Upload Resume -->
+            <div class="card">
+
+                <h3>Upload Resume</h3>
+
+                <p>Upload your PDF resume for analysis.</p>
+
+                <a href="{{ url_for('upload_resume') }}" class="btn">
+                    Upload Now
+                </a>
+
+            </div>
+
+
+            <!-- Resume Analysis -->
+            <div class="card">
+
+                <h3>Resume Analysis</h3>
+
+                <p>View your resume analysis results.</p>
+
+                <a href="{{ url_for('analysis_result') }}" class="btn">
+                    View Results
+                </a>
+
+            </div>
+
+
+            <!-- Job Recommendations -->
+            <div class="card">
+
+                <h3>Job Recommendations</h3>
+
+                <p>Find jobs matching your skills.</p>
+
+                <a href="{{ url_for('job_recommendations') }}" class="btn">
+                    Explore Jobs
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>© 2026 AI Resume Analyzer | All Rights Reserved</p>
+
+    </footer>
+
+</body>
+</html>

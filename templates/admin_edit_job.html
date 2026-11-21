@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Job</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            padding: 30px 15px;
+            background: #f3f4f8;
+        }
+
+        .form-container {
+            max-width: 750px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+        }
+
+        h1 {
+            color: #302b63;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin: 17px 0 8px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 15px;
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .skills-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            padding: 15px;
+            background: #f7f7fc;
+            border-radius: 8px;
+        }
+
+        .skills-box label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0;
+            font-weight: normal;
+        }
+
+        .skills-box input {
+            width: auto;
+        }
+
+        .update-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #302b63;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .update-btn:hover {
+            background: #4941a5;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #302b63;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<div class="form-container">
+
+    <h1>✏️ Edit Job</h1>
+
+    <p class="subtitle">
+        Update job information and required skills.
+    </p>
+
+    <form method="POST">
+
+        <label>Job Title</label>
+
+        <input type="text"
+               name="job_title"
+               value="{{ job.job_title }}"
+               required>
+
+
+        <label>Company Name</label>
+
+        <input type="text"
+               name="company_name"
+               value="{{ job.company_name or '' }}"
+               required>
+
+
+        <label>Location</label>
+
+        <input type="text"
+               name="location"
+               value="{{ job.location or '' }}"
+               required>
+
+
+        <label>Job Description</label>
+
+        <textarea name="description">{{ job.description or '' }}</textarea>
+
+
+        <label>Experience</label>
+
+        <input type="text"
+               name="experience"
+               value="{{ job.experience or '' }}"
+               placeholder="Fresher / 0-2 Years"
+               required>
+
+
+        <label>Job Type</label>
+
+        <select name="job_type" required>
+
+            <option value="Full Time"
+                {% if job.job_type == 'Full Time' %}selected{% endif %}>
+                Full Time
+            </option>
+
+            <option value="Part Time"
+                {% if job.job_type == 'Part Time' %}selected{% endif %}>
+                Part Time
+            </option>
+
+            <option value="Internship"
+                {% if job.job_type == 'Internship' %}selected{% endif %}>
+                Internship
+            </option>
+
+            <option value="Remote"
+                {% if job.job_type == 'Remote' %}selected{% endif %}>
+                Remote
+            </option>
+
+        </select>
+
+
+        <label>Apply Link</label>
+
+        <input type="url"
+               name="apply_link"
+               value="{{ job.apply_link or '' }}"
+               placeholder="https://example.com">
+
+
+        <label>Required Skills</label>
+
+        <div class="skills-box">
+
+            {% for skill in skills %}
+
+            <label>
+
+                <input type="checkbox"
+                       name="skills"
+                       value="{{ skill.skill_id }}"
+                       {% if skill.skill_id in selected_skills %}checked{% endif %}>
+
+                {{ skill.skill_name }}
+
+            </label>
+
+            {% endfor %}
+
+        </div>
+
+
+        <button type="submit" class="update-btn">
+            Update Job
+        </button>
+
+    </form>
+
+    <a href="{{ url_for('admin_jobs') }}" class="back">
+        ← Back to Manage Jobs
+    </a>
+
+</div>
+
+</body>
+</html>

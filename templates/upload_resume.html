@@ -1,27 +1,49 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Resume</title>
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
 
     <div class="form-container">
+
         <h2>Upload Your Resume</h2>
 
-        <form action="/upload-resume" method="POST" enctype="multipart/form-data">
+        <!-- Flash Messages -->
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color: green; font-weight: bold; margin: 10px 0;">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Resume Upload Form -->
+        <form action="{{ url_for('upload_resume') }}"
+              method="POST"
+              enctype="multipart/form-data">
 
             <label>Select Resume (PDF only)</label>
-            <input type="file" name="resume" accept=".pdf" required>
+
+            <input type="file"
+                   name="resume"
+                   accept=".pdf,application/pdf"
+                   required>
 
             <button type="submit">Upload Resume</button>
 
         </form>
 
-        <p><a href="/dashboard">Back to Dashboard</a></p>
+        <p>
+            <a href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+        </p>
+
     </div>
 
 </body>

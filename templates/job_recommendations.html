@@ -3,82 +3,546 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Recommendations</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Recommended Jobs | AI Resume Analyzer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f3f5fb;
+            color: #263248;
+        }
+
+        /* HEADER */
+
+        header {
+            background: linear-gradient(120deg, #182848, #3156a3);
+            color: white;
+            padding: 20px 4%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        header h2 {
+            font-size: 23px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        header a:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* MAIN CONTAINER */
+
+        .dashboard-container {
+            width: 96%;
+            max-width: 1800px;
+            margin: 35px auto;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            font-size: 32px;
+            color: #1e3260;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            color: #77839a;
+            font-size: 15px;
+        }
+
+        /* SKILLS SUMMARY */
+
+        .skills-summary {
+            background: white;
+            padding: 20px 25px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid #4776e6;
+        }
+
+        .skills-summary h3 {
+            color: #263e78;
+            margin-bottom: 12px;
+        }
+
+        .skill-tag {
+            display: inline-block;
+            background: #e8efff;
+            color: #3156a3;
+            padding: 7px 13px;
+            border-radius: 20px;
+            margin: 4px;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* JOB GRID */
+
+        .jobs-container {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+            align-items: stretch;
+        }
+
+        /* JOB CARD */
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            border: 1px solid #e5eaf2;
+            box-shadow: 0 5px 18px rgba(31,48,90,0.07);
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            height: 5px;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: linear-gradient(90deg, #4776e6, #8e54e9);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 28px rgba(49,86,163,0.17);
+            border-color: #a9bdf0;
+        }
+
+        .job-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #edf2ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            color: #263e78;
+            font-size: 19px;
+            margin-bottom: 8px;
+            line-height: 1.4;
+        }
+
+        .company {
+            color: #758199;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .job-info {
+            font-size: 13px;
+            color: #56647c;
+            margin-bottom: 9px;
+        }
+
+        .divider {
+            border: none;
+            border-top: 1px solid #edf0f5;
+            margin: 15px 0;
+        }
+
+        /* JOB DESCRIPTION */
+
+        .job-description {
+            background: #f5f7ff;
+            padding: 14px;
+            border-radius: 10px;
+            margin-bottom: 16px;
+        }
+
+        .job-description h3 {
+            color: #3156a3;
+            font-size: 14px;
+            margin-bottom: 9px;
+        }
+
+        .job-description p {
+            color: #667085;
+            font-size: 12px;
+            line-height: 1.7;
+            overflow-wrap: anywhere;
+        }
+
+        /* MATCH BADGE */
+
+        .match-box {
+            background: linear-gradient(120deg, #e5fff1, #d9f9e8);
+            padding: 13px;
+            border-radius: 11px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .match-box span {
+            display: block;
+            color: #16804b;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .match-box strong {
+            color: #087443;
+            font-size: 25px;
+        }
+
+        /* SKILLS */
+
+        .skills-heading {
+            font-size: 13px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #34415b;
+        }
+
+        .matched {
+            display: inline-block;
+            background: #e1f8eb;
+            color: #16804b;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin: 3px 2px;
+        }
+
+        .missing {
+            display: inline-block;
+            background: #ffe9e9;
+            color: #d44848;
+            padding: 5px 9px;
+            border-radius: 6px;
+            font-size: 11px;
+            margin: 3px 2px;
+        }
+
+        .no-skills {
+            color: #999;
+            font-size: 12px;
+        }
+
+        /* EXPERIENCE */
+
+        .experience-box {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .suitable {
+            background: #e1f8eb;
+            color: #16804b;
+        }
+
+        .gap {
+            background: #fff0dc;
+            color: #c07819;
+        }
+
+        .check {
+            background: #e8efff;
+            color: #3156a3;
+        }
+
+        /* APPLY BUTTON */
+
+        .btn {
+            display: block;
+            text-align: center;
+            background: linear-gradient(120deg, #4776e6, #3156a3);
+            color: white;
+            padding: 12px;
+            text-decoration: none;
+            border-radius: 9px;
+            margin-top: auto;
+            font-size: 14px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: linear-gradient(120deg, #3156a3, #182848);
+            transform: scale(1.02);
+        }
+
+        .no-jobs {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            color: #77839a;
+        }
+
+        /* RESPONSIVE DESIGN */
+
+        @media (max-width: 1200px) {
+            .jobs-container {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 900px) {
+            .jobs-container {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            .jobs-container {
+                grid-template-columns: 1fr;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .page-title h1 {
+                font-size: 25px;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
 
-    <header>
-        <h2>AI Resume Analyzer</h2>
-        <nav>
-            <a href="/dashboard">Dashboard</a>
-            <a href="/profile">Profile</a>
-            <a href="/logout">Logout</a>
-        </nav>
-    </header>
+<header>
 
-    <div class="dashboard-container">
+    <h2>🚀 AI Resume Analyzer</h2>
 
-        <h1>Recommended Jobs</h1>
-        <p>Jobs matching your resume skills.</p>
+    <div class="nav-links">
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
 
-        {% if jobs %}
+</header>
 
-            {% for job in jobs %}
 
-                <div class="card">
+<div class="dashboard-container">
 
-                    <h2>{{ job.job_title }}</h2>
+    <div class="page-title">
+        <h1>✨ Recommended Jobs</h1>
+        <p>Discover job opportunities that match your resume skills.</p>
+    </div>
 
-                    <h4>{{ job.company_name }}</h4>
 
-                    <p><strong>Location:</strong> {{ job.location }}</p>
+    <!-- DETECTED SKILLS -->
 
-                    <p><strong>Experience:</strong> {{ job.experience }}</p>
+    <div class="skills-summary">
 
-                    <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+        <h3>🎯 Your Detected Resume Skills</h3>
 
-                    <h3>Match Percentage: {{ job.match_percentage }}%</h3>
+        {% if matched_resume_skills %}
 
-                    <p>
-                        <strong>Matched Skills:</strong>
-                        {% if job.matched_skills %}
-                            {{ job.matched_skills | join(', ') }}
-                        {% else %}
-                            None
-                        {% endif %}
-                    </p>
-
-                    <p>
-                        <strong>Missing Skills:</strong>
-                        {% if job.missing_skills %}
-                            {{ job.missing_skills | join(', ') }}
-                        {% else %}
-                            None
-                        {% endif %}
-                    </p>
-
-                    <p>{{ job.description }}</p>
-
-                    <a href="{{ job.apply_link }}" target="_blank" class="btn">
-                        Apply Now
-                    </a>
-
-                </div>
-
+            {% for skill in matched_resume_skills %}
+                <span class="skill-tag">{{ skill }}</span>
             {% endfor %}
 
         {% else %}
 
-            <p>No jobs available.</p>
+            <p>No skills detected in your resume.</p>
 
         {% endif %}
 
-        <br>
+    </div>
 
-        <a href="/dashboard" class="btn">Back to Dashboard</a>
+
+    <!-- JOB RECOMMENDATIONS -->
+
+    {% if recommendations %}
+
+    <div class="jobs-container">
+
+        {% for job in recommendations %}
+
+        <div class="card">
+
+            <div class="job-icon">💼</div>
+
+            <h2>{{ job.job_title }}</h2>
+
+            <p class="company">🏢 {{ job.company_name }}</p>
+
+            <p class="job-info">📍 {{ job.location }}</p>
+
+            <p class="job-info">⏳ {{ job.experience }}</p>
+
+            <p class="job-info">📌 {{ job.job_type }}</p>
+
+
+            <!-- JOB DESCRIPTION -->
+
+            <hr class="divider">
+
+            <div class="job-description">
+
+                <h3>📄 Job Description</h3>
+
+                <p>
+                    {{ job.description or 'No description available.' }}
+                </p>
+
+            </div>
+
+
+            <!-- MATCH PERCENTAGE -->
+
+            <div class="match-box">
+
+                <span>RESUME MATCH</span>
+
+                <strong>{{ job.match_percentage }}%</strong>
+
+            </div>
+
+
+            <!-- MATCHED SKILLS -->
+
+            <p class="skills-heading">✅ Matched Skills</p>
+
+            <div>
+
+                {% if job.matched_skills %}
+
+                    {% for skill in job.matched_skills %}
+                        <span class="matched">{{ skill }}</span>
+                    {% endfor %}
+
+                {% else %}
+
+                    <span class="no-skills">No matched skills</span>
+
+                {% endif %}
+
+            </div>
+
+
+            <br>
+
+
+            <!-- MISSING SKILLS -->
+
+            <p class="skills-heading">❌ Missing Skills</p>
+
+            <div>
+
+                {% if job.missing_skills %}
+
+                    {% for skill in job.missing_skills %}
+                        <span class="missing">{{ skill }}</span>
+                    {% endfor %}
+
+                {% else %}
+
+                    <span class="no-skills">No missing skills</span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- EXPERIENCE STATUS -->
+
+            <div class="experience-box
+                {% if job.experience_match == True %}
+                    suitable
+                {% elif job.experience_match == False %}
+                    gap
+                {% else %}
+                    check
+                {% endif %}">
+
+                {% if job.experience_match == True %}
+                    ✓ {{ job.experience_status }}
+                {% elif job.experience_match == False %}
+                    ⚠ {{ job.experience_status }}
+                {% else %}
+                    ℹ {{ job.experience_status }}
+                {% endif %}
+
+            </div>
+
+
+            <br>
+
+
+            <!-- APPLY NOW -->
+
+            {% if job.apply_link %}
+
+                <a href="{{ job.apply_link }}"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   class="btn">
+                    Apply Now →
+                </a>
+
+            {% else %}
+
+                <span class="no-skills">Application link unavailable</span>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
 
     </div>
+
+    {% else %}
+
+        <div class="no-jobs">
+            <h2>No Job Recommendations Found</h2>
+            <p>Please upload your resume to get job recommendations.</p>
+        </div>
+
+    {% endif %}
+
+</div>
 
 </body>
 </html>
